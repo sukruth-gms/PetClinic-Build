@@ -1,12 +1,12 @@
 pipeline {
-    agent any {
-        environment {
-            IMAGE = 'pet-clinic-image'
-            SONAR_SCANNER_HOME = tool 'sonarscanner'
-            SONAR_TOKEN = credentials('SONAR_TOKEN')
-            DOCKER_USER = "sukruth17"
-            PASS = credentials('dockerhub-pass')
-        }
+    agent any
+    
+    environment {
+        IMAGE = 'pet-clinic-image'
+        SONAR_SCANNER_HOME = tool 'sonarscanner'
+        SONAR_TOKEN = credentials('SONAR_TOKEN')
+        DOCKER_USER = "sukruth17"
+        PASS = credentials('dockerhub-pass')
     }
     
     stages {
