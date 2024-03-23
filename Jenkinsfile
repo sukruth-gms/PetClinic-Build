@@ -1,6 +1,9 @@
 pipeline {
     agent any
-    
+
+    tools {
+        maven 'mymaven'
+    }
     environment {
         IMAGE = 'pet-clinic-image'
         SONAR_SCANNER_HOME = tool 'sonarscanner'
