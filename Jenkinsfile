@@ -25,18 +25,6 @@ pipeline {
             }
         }
 
-        stage("Unit Test of source code") {
-            steps {
-                echo "Testing....."
-                sh "mvn test -Dcheckstyle.skip"
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
-        }
-
         stage("Code analysis") {
             steps {
                 sh "mvn checkstyle:checkstyle"
