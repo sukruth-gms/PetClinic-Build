@@ -1,3 +1,4 @@
+import org.jfrog.hudson.pipeline.types.ArtifactoryServer
 pipeline {
     agent any
 
@@ -6,6 +7,7 @@ pipeline {
     }
     
     environment {
+        BUILD_NUMBER = env.BUILD_NUMBER
         IMAGE = 'pet-clinic-image'
         SONAR_SCANNER_HOME = tool 'sonarscanner'
         SONAR_TOKEN = credentials('SONAR_TOKEN')
