@@ -10,6 +10,8 @@ pipeline {
         SONAR_TOKEN = credentials('SONAR_TOKEN')
         DOCKER_USER = 'sukruth17'
         DOCKER_PASS = credentials('dockerhub-pass')
+        ARTIFACTORY_URL = 'https://appartifactjfrog.jfrog.io/'
+        ARTIFACTORY_REPO = 'artifactstore-maven-remote'
     }
     
     stages {
@@ -22,9 +24,20 @@ pipeline {
                 success {
                     archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                 }
+            script {
+                        def server = Artifactory.server ARTIFACTORY_URL
+                        def uploadSpec = """{
+                            "files": [
+                                {
+                                    "pattern": "target/*.jar",
+                                    "target": "$ARTIFACTORY_REPO/"
+                                }
+                            ]
+                        }"""
+                        server.upload(uploadSpec)
+                  }
             }
         }
-
         stage("Code analysis") {
             steps {
                 sh "mvn checkstyle:checkstyle"
