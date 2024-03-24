@@ -26,7 +26,7 @@ pipeline {
                     archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                 }
                 script {
-                    def server = Artifactory.server ARTIFACTORY_URL
+                    def server = Artifactory.server("${ARTIFACTORY_URL}")
                     def uploadSpec = """{
                         "files": [
                             {
