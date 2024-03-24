@@ -1,5 +1,3 @@
-import org.jfrog.hudson.pipeline.types.ArtifactoryServer
-
 pipeline {
     agent any
 
