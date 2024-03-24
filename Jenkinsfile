@@ -4,6 +4,7 @@ pipeline {
     tools {
         maven 'mymaven'
     }
+    
     environment {
         IMAGE = 'pet-clinic-image'
         SONAR_SCANNER_HOME = tool 'sonarscanner'
@@ -24,20 +25,21 @@ pipeline {
                 success {
                     archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                 }
-            script {
-                        def server = Artifactory.server ARTIFACTORY_URL
-                        def uploadSpec = """{
-                            "files": [
-                                {
-                                    "pattern": "target/*.jar",
-                                    "target": "$ARTIFACTORY_REPO/"
-                                }
-                            ]
-                        }"""
-                        server.upload(uploadSpec)
-                  }
+                script {
+                    def server = Artifactory.server ARTIFACTORY_URL
+                    def uploadSpec = """{
+                        "files": [
+                            {
+                                "pattern": "target/*.jar",
+                                "target": "$ARTIFACTORY_REPO/"
+                            }
+                        ]
+                    }"""
+                    server.upload(uploadSpec)
+                }
             }
         }
+        
         stage("Code analysis") {
             steps {
                 sh "mvn checkstyle:checkstyle"
