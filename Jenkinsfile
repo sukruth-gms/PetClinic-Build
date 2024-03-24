@@ -24,18 +24,18 @@ pipeline {
             post {
                 success {
                     archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-                }
-                script {
-                    def server = Artifactory.server ARTIFACTORY_URL
-                    def uploadSpec = """{
-                        "files": [
-                            {
-                                "pattern": "target/*.jar",
-                                "target": "$ARTIFACTORY_REPO/"
-                            }
-                        ]
-                    }"""
-                    server.upload(uploadSpec)
+                    script {
+                        def server = Artifactory.server ARTIFACTORY_URL
+                        def uploadSpec = """{
+                            "files": [
+                                {
+                                    "pattern": "target/*.jar",
+                                    "target": "$ARTIFACTORY_REPO/"
+                                }
+                            ]
+                        }"""
+                        server.upload(uploadSpec)
+                    }
                 }
             }
         }
@@ -83,14 +83,14 @@ pipeline {
             steps {
                 echo 'Pushing to Dockerhub...'
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-pass', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh """
+                    script {
                         echo 'Logging in ****'
                         docker login -u $DOCKER_USER -p $DOCKER_PASS
                         echo '*** Tagging image ***'
                         docker tag $IMAGE:$BUILD_NUMBER $DOCKER_USER/$IMAGE:$BUILD_NUMBER
                         echo '*** Pushing image ***' 
                         docker push $DOCKER_USER/$IMAGE:$BUILD_NUMBER
-                    """
+                    }
                 }
             }
         }
