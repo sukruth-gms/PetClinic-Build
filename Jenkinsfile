@@ -55,12 +55,14 @@ pipeline {
         }
 
         stage('Build Image') {
-            script {
-            echo 'Building Docker IMAGE'
-            def buildNumber = env.BUILD_NUMBER
-            sh "docker build -t $IMAGE:$buildNumber ."
-             }
-       }
+            steps {
+                script {
+                    echo 'Building Docker IMAGE'
+                    def buildNumber = env.BUILD_NUMBER
+                    sh "docker build -t $IMAGE:$buildNumber ."
+                }
+            }
+        }
 
         stage('Push Image') {
             steps {
@@ -69,9 +71,9 @@ pipeline {
                     echo "Logging in ****"
                     docker login -u $DOCKER_USER -p $PASS
                     echo "*** Tagging image ***"
-                    docker tag $IMAGE:$BUILDNUMBER $DOCKER_USER/$IMAGE:$BUILDNUMBER
+                    docker tag $IMAGE:$BUILD_NUMBER $DOCKER_USER/$IMAGE:$BUILD_NUMBER
                     echo "*** Pushing image ***" 
-                    docker push $DOCKER_USER/$IMAGE:$BUILDNUMBER
+                    docker push $DOCKER_USER/$IMAGE:$BUILD_NUMBER
                 '''
             }
         }
