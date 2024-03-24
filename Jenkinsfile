@@ -11,7 +11,6 @@ pipeline {
         SONAR_TOKEN = credentials('SONAR_TOKEN')
         DOCKER_USER = 'sukruth17'
         DOCKER_PASS = credentials('dockerhub-pass')
-        ARTIFACTORY_URL = 'https://appartifactjfrog.jfrog.io/'
         ARTIFACTORY_REPO = 'artifactstore-maven-remote'
     }
     
@@ -26,16 +25,7 @@ pipeline {
                     archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                 }
                 script {
-                    def server = Artifactory.server("${ARTIFACTORY_URL}")
-                    def uploadSpec = """{
-                        "files": [
-                            {
-                                "pattern": "target/*.jar",
-                                "target": "${ARTIFACTORY_REPO}/"
-                            }
-                        ]
-                    }"""
-                    server.upload(uploadSpec)
+                    sh "jfrog rt u target/*.jar ${ARTIFACTORY_REPO}/ --build-name=my-build --build-number=${env.BUILD_NUMBER}"
                 }
             }
         }
