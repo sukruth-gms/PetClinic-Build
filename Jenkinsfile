@@ -31,7 +31,7 @@ pipeline {
                         "files": [
                             {
                                 "pattern": "target/*.jar",
-                                "target": "$ARTIFACTORY_REPO/"
+                                "target": "${ARTIFACTORY_REPO}/"
                             }
                         ]
                     }"""
