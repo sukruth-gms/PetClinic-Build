@@ -55,11 +55,12 @@ pipeline {
         }
 
         stage('Build Image') {
-            steps {
-                echo 'Building Docker IMAGE'
-                sh "docker build -t $IMAGE:$BUILDNUMBER ."
-            }
-        }
+            script {
+            echo 'Building Docker IMAGE'
+            def buildNumber = env.BUILD_NUMBER
+            sh "docker build -t $IMAGE:$buildNumber ."
+             }
+       }
 
         stage('Push Image') {
             steps {
