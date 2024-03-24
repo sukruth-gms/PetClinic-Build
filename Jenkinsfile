@@ -67,7 +67,7 @@ pipeline {
         stage('Push Image') {
             steps {
                 echo 'Pushing to Dockerhub...'
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-pass', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-pass', usernameVariable: 'DOCKER_USER', passwordVariable: 'PASS')]) {
                 sh '''
                     echo "Logging in ****"
                     docker login -u $DOCKER_USER -p $PASS
