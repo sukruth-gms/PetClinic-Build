@@ -7,7 +7,6 @@ pipeline {
         SONAR_TOKEN = credentials('SONAR_TOKEN')
         DOCKER_USER = 'sukruth17'
         PASS = credentials('dockerhub-pass')
-        BUILDNUMBER = env.BUILD_NUMBER // Added BUILDNUMBER variable
     }
 
     tools {
