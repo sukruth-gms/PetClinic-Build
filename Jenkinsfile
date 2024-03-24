@@ -6,7 +6,7 @@ pipeline {
     }
     
     environment {
-        BUILD_NUMBER = env.BUILD_NUMBER
+        BUILD_NUMBER = 'env.BUILD_NUMBER'
         IMAGE = 'pet-clinic-image'
         SONAR_SCANNER_HOME = tool 'sonarscanner'
         SONAR_TOKEN = credentials('SONAR_TOKEN')
