@@ -73,7 +73,7 @@ pipeline {
               script {
                 def BUILDNUMBER = env.BUILD_NUMBER
                 echo "Building Docker IMAGE with build number: $BUILDNUMBER"
-                sh "sudo docker build -t $IMAGE:$BUILDNUMBER ."
+                sh "docker build -t $IMAGE:$BUILDNUMBER ."
               }
             }
         }
@@ -83,11 +83,11 @@ pipeline {
                 echo 'Pushing to Dockerhub...'
                 sh '''
                     echo "Logging in ****"
-                    sudo docker login -u $DOCKER_USER -p $PASS
+                    docker login -u $DOCKER_USER -p $PASS
                     echo "*** Tagging image ***"
-                    sudo docker tag $IMAGE:$BUILD_NUMBER $DOCKER_USER/$IMAGE:$BUILD_NUMBER
+                    docker tag $IMAGE:$BUILD_NUMBER $DOCKER_USER/$IMAGE:$BUILD_NUMBER
                     echo "*** Pushing image ***" 
-                    sudo docker push $DOCKER_USER/$IMAGE:$BUILD_NUMBER
+                    docker push $DOCKER_USER/$IMAGE:$BUILD_NUMBER
                 '''
             }
         }
